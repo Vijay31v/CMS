@@ -1,0 +1,40 @@
+{% include 'ahead.html'%}
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-6">
+        <div class="text-center h5 mt-3" style="font-family:cursive;">Add Room</div>
+         <div class="card p-3">
+          <form action="add_room1" method="post">
+           <div class="mt-2">
+               <label for="room_number" class="form-control-label" >Room Number</label>
+               <input type="number" name="room_number"  id="room_number" class="form-control" required placeholder="Enter Room Number">
+            </div>
+            <div class="mt-2">
+               <label for="room_capacity" class="form-control-label" >Room Capacity</label>
+               <input type="number" name="room_capacity"  id="room_capacity" class="form-control" required placeholder="Enter Room Capacity">
+            </div>
+            <div class="mt-2">
+              <input type="submit" value="Add Room" class="btn btn w-100" style="background-color: #2a8d96; color: White;">
+            </div>
+          </form>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="text-center h5 mt-3">View Room</div>
+        <table class="table table-bordered">
+            <thead class="col-md-4">
+                <tr>
+                    <td class="text-center">Room Number</td>
+                    <td class="text-center">Room Capacity</td>
+                </tr>
+            </thead>
+            {% for room in rooms: %}
+                <tr>
+                    <td class="text-center">{{room['room_number']}}</td>
+                    <td class="text-center">{{room['room_capacity']}}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+  </div>
+</div>

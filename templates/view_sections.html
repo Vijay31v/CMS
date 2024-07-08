@@ -1,0 +1,161 @@
+{% if session['role'] == 'admin' %}
+	{% include 'ahead.html'%}
+{% endif %}
+{% if session['role'] == 'Professor' %}
+	{% include 'professor_head.html'%}
+{% endif %}
+{% if session['role'] == 'student' %}
+	{% include "student_head.html" %}
+{% endif %}
+
+<div class="container">
+      <div class="row">
+        <div class="text-center h5 mt-1" >
+          View Sections
+        </div>
+      </div>
+      <div class="row mt-2">
+            {% for section in sections: %}
+            {% set course = get_course_by_course_id(section['course_id'])%}
+            {% set professor =  get_professor_by_Professor_id(section['Professor_id'])%}
+            {% set department =  get_department_by_department_id(section['department_id'])%}
+            {% set room =  get_room_by_room_id(section['room_id'])%}
+            <div class="col-md-12">
+                <div class="card p-2 mt-3" style="border-radius:10px">
+                    <div class="mt-1">
+                        <div class="text-center h6">{{course['course_name']}} Course</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="mt-2">
+                                <div style="font-size:13px;">CRN Number:</div>
+                                <div><h6>{{section['CRN_number']}}</h6></div>
+                            </div>
+                            <div class="mt-2">
+                                <div style="font-size:13px">Room Number:</div>
+                                <div class="h6">{{room['room_number']}}</div>
+                            </div>
+                             <div class="mt-2">
+                                <div style="font-size:13px">Email:</div>
+                                <div class="h6">{{professor['email']}}</div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-2 mt-2">
+                            <div style="font-size:13px">Day(on):</div>
+                                {% for d in section['day'] %}
+                                    <label><b>{{d}}</b></label>
+                                {% endfor %}
+
+                            <div class="mt-2">
+                                <div style="font-size:13px">Section Start Time:</div>
+                                <div class="h6">{{section['section_start_time'].strftime("%I:%M %p")}}</div>
+                            </div>
+
+                             <div class="mt-2">
+                                <div style="font-size:13px">Professor Name :</div>
+                                <div class="h6">{{professor['first_name']}} {{professor['last_name']}}</div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-3">
+                             <div class="mt-2">
+                                <div style="font-size:13px">Room Capacity:</div>
+                                <div class="h6">{{room['room_capacity']}}</div>
+                            </div>
+                            <div class="mt-2">
+                                <div style="font-size:13px">Section End Time</div>
+                                <div class="h6">{{section['section_end_time'].strftime("%I:%M %p")}}</div>
+                            </div>
+                            <div class="mt-2">
+                                <div style="font-size:13px">Phone Number: </div>
+                                <div class="h6">{{professor['phone']}}</div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-2">
+                            <div class="mt-3">
+                                <div style="font-size:13px">Department:</div>
+                                <div class="h6">{{department['department_name']}}</div>
+                            </div>
+                             <div class="mt-2">
+                                <div style="font-size:13px">Course Start Date:</div>
+                                <div class="h6">{{section['Enrolment_start_date'].strftime("%d %h %Y")}}</div>
+                            </div>
+                            <div class="mt-2">
+                                <div style="font-size:13px">Experience:</div>
+                                <div class="h6">{{professor['experience']}}</div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-2">
+                            <div class="mt-3">
+                                <div style="font-size:13px;">Number of Students:</div>
+                                <div class="h6">{{section['Number_of_students']}}</div>
+                            </div>
+                            <div class="mt-2">
+                                <div style="font-size:13px">Course End Date:</div>
+                                <div class="h6">{{section['Enrolment_end_date'].strftime("%d %h %Y")}}</div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="row">
+                                {% if session['role'] == 'Professor' %}
+                                <div class="col-md-4"></div>
+                                <div class="col-md-4">
+                                    <a href="/add_course_material?section_id={{section['_id']}}" style="border-radius:10px; font-size:15px; background-color: #253db4; color: White;" class="btn btn w-100 mt-1">Add Course Material</a>
+                                </div>
+                                {% endif %}
+                                <div class="col-md-4">
+                                    <div class="col-md-12 mt-2">
+                                        {% if session['role'] != 'student' %}
+                                                <a href="/view_enrolled?section_id={{section['_id']}}" style="border-radius:10px; font-size:15px; background-color: #253db4; color: White;" class="btn btn w-100">View Enrollments</a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                {% if session['role'] == 'admin' %}
+                                    <div class="col-md-4"></div>
+                                    <div class="col-md-4">
+                                        <a href="/add_section?section_id={{section['_id']}}&course_id={{course['_id']}}" style="border-radius:10px; font-size:15px; background-color: #253db4; color: White;" class="btn btn w-100 mt-1">Edit</a>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            {% if session['role'] == 'student' %}
+                                {% set IsEnrol =  get_enrolment_by_student_id(section['_id'])%}
+                                {% if IsEnrol: %}
+                                    {% set enrolment =  get_enrolment_by_student_id_section_id(section['_id'])%}
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div style="font-size:13px"></div>
+                                                <div>Status:<b>{{enrolment["status"]}}</b></div>
+                                            </div>
+                                            <div class="col-md-6"></div>
+                                            <div class="col-md-3">
+                                            {% if session['role'] == 'student' %}
+                                                {% if enrolment['status'] == 'Enrolled' %}
+                                                    <a href="/drop_enrol?enrolment_id={{enrolment['_id']}}" class="btn btn-danger w-100 mt-2" style="border-radius:15px; font-size:13px;">Drop Enrolment</a>
+                                                {% endif %}
+                                            {% endif %}
+                                            </div>
+                                        </div>
+                                        </div>
+                                    {% else: %}
+                                        <div class="col-md-3 mt-2"></div>
+                                        <div class="col-md-3 mt-2">
+                                            {% set is_enrolled = is_course_enrolled(section['_id'])%}
+                                                {% if is_enrolled: %}
+                                                    <div>You Can't Enroll This Section</div>
+                                                {% else: %}
+                                                    <a href="/enrol?section_id={{section['_id']}}" style="border-radius:10px; font-size:15px;" class="btn btn-success w-100">Enroll Now</a>
+                                                {% endif %}
+                                        </div>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+          {% endfor %}
+      </div>
+</div>
+

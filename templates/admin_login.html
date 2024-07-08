@@ -1,0 +1,45 @@
+{% include 'Mhead.html'%}
+
+<style>
+    #Password{
+    padding-top:2px;
+    border:1px solid black;
+    border-radius:10px;
+    }
+    #Username{
+    border:1px solid black;
+    border-radius:10px;
+    }
+    .button{
+    background-color: ;
+    border: none; color: ;padding:
+    10px 56px;text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    }
+</style>
+<div class="row mt-2">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+        <div class="card p-4 mt-5">
+            <form action="admin_login1" method="post">
+                <div class="h4 text-center">Admin Login</div>
+                <div class="form-group">
+                    <label for="Username">User Name</label>
+                    <input type="text" class="form-control mt-1" id="Username" placeholder="Enter Username" name="Username" required
+                </div>
+                <div class="form-group mt-1">
+                    <label for="Password" style="">Password</label>
+                    <input type="Password" class="form-control mt-1" id="Password" placeholder="Enter Password" name="Password" required>
+                </div>
+                <div class="mt-2">
+                    <input type="submit" value="Login" class="btn btn w-100" style="background-color: #253db4; color: White;">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</div>

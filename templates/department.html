@@ -1,0 +1,45 @@
+{% include 'ahead.html'%}
+
+<script>
+    function edit_department(department_id, department_name) {
+        document.getElementById("department_name").value = department_name
+        document.getElementById("department_id").value = department_id
+        document.getElementById("btn").value = "Edit Department"
+        document.getElementById("title").innerHTML = "Edit Department"
+    }
+</script>
+
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-6">
+         <div class="text-center h5 mt-3" id="title">Add Department</div>
+         <div class="card p-3 mt-2">
+          <form action="department_action" method="post">
+              <input type="hidden" name="department_id" id="department_id">
+            <div class="mt-2">
+               <label for="department_name" class="form-control-label">Department Name</label>
+               <input type="text" name="department_name"  id="department_name" class="form-control" required placeholder="Enter Department Name">
+            </div>
+            <div class="mt-2">
+              <input type="submit" value="Add Department" id="btn" class="btn btn w-100" style="background-color: #253db4;color: White; ">
+            </div>
+          </form>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="text-center h5 mt-3">View Departments</div>
+        <table class="table table-bordered">
+            <thead class="col-md-4">
+                <tr>
+                    <td class="text-center">view Department</td>
+                </tr>
+            </thead>
+            {% for department in departments: %}
+                <tr>
+                    <td class="text-center">{{department['department_name']}} &nbsp; &nbsp; &nbsp;<label onclick="edit_department('{{department['_id']}}', '{{department['department_name']}}')">Edit</label></td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+  </div>
+</div>

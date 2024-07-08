@@ -1,0 +1,134 @@
+{% include 'ahead.html'%}
+
+<script>
+    function edit_professor(Professor_id, first_name, last_name, email, phone, ssn, date_of_birth, age, address, gender, zipcode, city, state,experience) {
+        document.getElementById("first_name").value = first_name
+        document.getElementById("last_name").value = last_name
+        document.getElementById("email").value = email
+        document.getElementById("phone").value = phone
+        document.getElementById("ssn").value = ssn
+        document.getElementById("date_of_birth").value = date_of_birth
+        document.getElementById("address").value = address
+        if(gender==='male'){
+          document.getElementById("gender").checked = true;
+        }else{
+            document.getElementById("gender1").checked = true;
+        }
+        document.getElementById("zipcode").value = zipcode
+        document.getElementById("city").value = city
+        document.getElementById("state").value = state
+        document.getElementById("experience").value = experience
+
+        document.getElementById("Professor_id").value = Professor_id
+        document.getElementById("btn").value = "Edit Professor"
+        document.getElementById("title").innerHTML = "Edit Professor"
+    }
+</script>
+
+<div class="row">
+    <form action="add_professor_action" method="post" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <div class="card p-3 mt-3">
+                    <div class="h4 text-center" id="title">Add Professor</div>
+                    <input type="hidden" name="Professor_id" id="Professor_id">
+                    <div class="row">
+                       <div class="col-md-6">
+                            <label for="first_name">First Name</label>
+                            <input type="text"  class="form-control" name="first_name" id="first_name" placeholder="Enter your First Name" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="last_name">Last Name</label>
+                            <input type="text"  class="form-control" name="last_name" id="last_name" placeholder="Enter your Last Name" required>
+                        </div>
+                    </div>
+                    <div class="form-group mt-2">
+                        <label for="email">Email</label>
+                        <input type="email" name="email" id="email"  class="form-control" placeholder="Enter your Email" required>
+                    </div>
+                    <div class="form-group mt-2">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" name="phone" id="phone"  class="form-control" placeholder="Enter your Phone Number" required>
+                    </div>
+                    <div class="form-group mt-2">
+                        <label for="ssn">SSN</label>
+                        <input type="number" name="ssn" id="ssn"  class="form-control" placeholder="Enter SSN" required>
+                    </div>
+                    <div class="row">
+                         <div class="col-md-6 mt-2">
+                            <label for="password">Password</label>
+                            <input type="password" name="password" id="password"  class="form-control" placeholder="Enter Password" required>
+                        </div>
+                         <div class="col-md-6 mt-2">
+                            <label for="password2">Confirm Password</label>
+                            <input type="password" name="password2" id="password2"  class="form-control" placeholder="Enter Password" required>
+                        </div>
+                    </div>
+                     <div class="form-group mt-2">
+                        <label for="date_of_birth">Date of Birth</label>
+                        <input type="date" name="date_of_birth" id="date_of_birth"  class="form-control" placeholder="Enter date_of_birth" required>
+                    </div>
+                    <div class="row">
+                         <div class="col-md-12 mt-2">
+                            <label for="experience">Experience</label>
+                             <input type="text" id="experience" name="experience" class="form-control" placeholder="Enter Experience" required>
+                        </div>
+
+                    </div>
+                    <div class="mt-1">
+                        <label for="picture" class="form-control-label">Picture</label>
+                        <input type="file" name="picture" id="picture" placeholder="Choose Picture" required class="form-control">
+                    </div>
+                    <div class="form-group mt-2">
+                        <label for="gender">Gender</label>&nbsp;&nbsp;
+                        <input type="radio" class="" id="gender"  value="male" name="gender" required> <label for="gender">Male</label>&nbsp;&nbsp;
+                        <input type="radio" id="gender1" name="gender" value="female" required> <label for="gender">Female</label>
+                    </div>
+                     <div for="address">
+                        <label for="address">Address</label>
+                        <textarea name="address" id="address"  class="form-control" placeholder="Enter Address line 1" required></textarea>
+                    </div>
+                     <div class="form-group mt-2">
+                        <label for="state">State</label>
+                        <input type="text" name="state" id="state"  class="form-control" placeholder="Enter State" required>
+                    </div>
+                    <div class="form-group mt-2">
+                        <label for="city">City</label>
+                        <input type="text" name="city" id="city"  class="form-control" placeholder="Enter City" required>
+                    </div>
+
+                    <div class="form-group mt-2">
+                        <label for="zipcode">Zipcode</label>
+                        <input type="number" name="zipcode" id="zipcode"  class="form-control" placeholder="Enter Zipcode" required>
+                    </div>
+                    <input type="submit" value="Add Professor" id="btn" class="btn btn w-100" style="background-color: #253db4; color: White;">
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="row">
+        {% for professor in professors  %}
+        <div class="col-md-4">
+            <div class="card m-4 p-3">
+                <div class="row">
+                    <div class="text-center" style="font-size:20px;">Professor Name: {{professor['first_name']}} {{professor['last_name']}} &nbsp; &nbsp; &nbsp;<label onclick="edit_professor('{{professor['_id']}}', '{{professor['first_name']}}','{{professor['last_name']}}','{{professor['email']}}','{{professor['phone']}}','{{professor['ssn']}}','{{professor['date_of_birth']}}','{{professor['age']}}','{{professor['address']}}','{{professor['gender']}}', {{professor['zipcode']}},'{{professor['city']}}','{{professor['state']}}','{{professor['experience']}}')">Edit</label></div>
+                    <hr>
+                    <img  class="card-img-center" src="../static/picture/{{professor['picture']}}" alt="Card image" style="height:120px;max-width:150%;">
+                    <div class="text-center h6 mt-3" style="">Email : {{professor['email']}}</div>
+                    <div class="text-center h6 mt-3" style="">Phone : {{professor['phone']}}</div>
+                    <div class="text-center h6 mt-3" style="">Experience :  {{professor['experience']}}</div>
+                    <div class="text-center h6 mt-3" style="">SSN :  {{professor['ssn']}}</div>
+                    <div class="text-center h6 mt-3" style="">DOB :  {{professor['date_of_birth']}}</div>
+                    <div class="text-center h6 mt-3" style="">Address :  {{professor['address']}}</div>
+                    <div class="text-center h6 mt-3" style="">Gender :  {{professor['gender']}}</div>
+                    <div class="text-center h6 mt-3" style="">Zipcode :  {{professor['zipcode']}}</div>
+                    <div class="text-center h6 mt-3" style="">City :  {{professor['city']}}</div>
+                    <div class="text-center h6 mt-3" style="">State :  {{professor['state']}}</div>
+
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>

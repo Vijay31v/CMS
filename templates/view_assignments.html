@@ -1,0 +1,56 @@
+{% if session['role'] == 'Professor' %}
+	{% include 'professor_head.html'%}
+{% endif %}
+{% if session['role'] == 'student' %}
+	{% include "student_head.html" %}
+{% endif %}
+
+<div class="container-fluid">
+  <table class="table table-bordered mt-5">
+    <thead>
+      <tr>
+        <th>Submission Date</th>
+        <th>Student Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Gender</th>
+        <th>View Submission</th>
+        <th>Marks</th>
+        <th>Status</th>
+        {%  if session['role'] == 'Professor': %}
+          <th>Assign Marks</th>
+        {% endif %}
+      <tr>
+    </thead>
+    <tbody>
+    {% for assignment_submission in assignment_submissions: %}
+    {% set student = get_student_by_enrolment_id(assignment_submission['enrolment_id'])%}
+      <tr>
+        <td>{{assignment_submission['date'].strftime("%c")}}</td>
+        <td>{{student['first_name']}} {{student['last_name']}}</td>
+        <td>{{student['email']}}</td>
+        <td>{{student['phone']}}</td>
+        <td>{{student['gender']}}</td>
+        <td>
+              <a href="../static/picture/{{assignment_submission['assignment_upload']}}">View Submission</a>
+        </td>
+        <td>
+          {% if 'assign_marks' in assignment_submission %}
+              {{assignment_submission['assign_marks']}}
+          {% endif %}
+          {% if 'assign_marks' not in assignment_submission %}
+              Marks not Assigned
+          {% endif %}
+        </td>
+        <td>{{assignment_submission['status']}}</td>
+        <td>
+          {%  if (assignment_submission['status']=='submitted')and session['role'] == 'Professor': %}
+                <a href="assign_assignment_marks?assignment_submission_id={{assignment_submission['_id']}}">Assign Marks</a>
+          {% endif %}
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+    </tr>
+  </table>
+</div>

@@ -1,0 +1,32 @@
+{% include 'professor_head.html'%}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div class="text-center h3" style="color: White;">provide grade Here</div>
+            <div class="card p-3">
+                <form action="give_grade_action" method="post">
+                    <input type="hidden" name="enrolment_id" value="{{enrolment_id}}">
+                     <div class="col-md-12 mt-3">
+                        <label>Choose Grade</label>
+                        <select name="grade" id="grade" class="form-control">
+                          <option value="">Give grade</option>
+                          <option value="A+">A+</option>
+                          <option value="A">A</option>
+                          <option value="B+">B+</option>
+                          <option value="B">B</option>
+                          <option value="C+">C+</option>
+                          <option value="C">C</option>
+                          <option value="D+">D+</option>
+                          <option value="D">D</option>
+                        </select>
+                    </div>
+                    <div class="mt-2">
+                        <input type="submit" value="Give Grade" class="btn btn w-100" style="background-color: #253db4; color: White;">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

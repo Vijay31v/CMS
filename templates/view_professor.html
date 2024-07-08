@@ -1,0 +1,33 @@
+{% include 'professor_head.html'%}
+
+
+
+<div class="container">
+    <div class="row">
+         <div class="col-md-7">
+            <div class="row">
+                {% for professor in professors: %}
+                    <div class="col-md-5 mt-3">
+                        <div class="card p-3">
+                            <div class="col-md-12 mt-2">
+                                <div>Professor Name :<b> {{professor['first_name']}} {{professor['last_name']}}</b></div>
+                            </div>
+                            <div class="col-md-12 mt-2">
+                                <div>Email : <b>{{professor['email']}}</b></div>
+                            </div>
+                            <div class="col-md-12 mt-2">
+                                <div> Phone Number: <b>{{professor['phone']}}</b></div>
+                            </div>
+                            <div class="col-md-12 mt-2">
+                                <div>Experience : <b>{{professor['experience']}}</b></div>
+                            </div>
+                            <div class="col-md-12 mt-2">
+                                <div>Address : <b>{{professor['address']}}</b></div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>

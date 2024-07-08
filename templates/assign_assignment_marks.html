@@ -1,0 +1,22 @@
+{% include 'professor_head.html' %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+       <div class="card mt-5 p-3">
+         <form action="assign_assignment_marks1">
+             <input type="hidden" name="assignment_submission_id" value="{{assignment_submission_id}}">
+           <div class="text-center h3"> Add Marks</div>
+           <div class="form-group mt-1">
+                <label for="assign_marks">Enter Marks</label>
+                <input type="number" class="form-control mt-1" id="assign_marks" placeholder="Enter Marks" name="assign_marks" required>
+           </div>
+           <div class="mt-2">
+               <input type="submit" value="Assign Marks" class="btn btn-primary w-100">
+           </div>
+         </form>
+       </div>
+    </div>
+  <div class="col-md-4"></div>
+  </div>
+  </div>

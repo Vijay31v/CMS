@@ -1,0 +1,23 @@
+{% include 'professor_head.html'%}
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-4 mt-3">
+            <div class="card mt-5">
+              <div class="text-center h3 color= text-white">View Course Category</div>
+                <table class="table table-bordered">
+                    <thead class="col-md-4">
+                        <tr>
+                            <td class="text-center">Course Category</td>
+                        </tr>
+                    </thead>
+                    {% for course_category in course_categories: %}
+                        <tr>
+                            <td class="text-center">{{course_category['course_category_name']}}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

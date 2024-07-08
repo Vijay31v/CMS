@@ -1,0 +1,108 @@
+{% if session['role'] == 'Professor' %}
+	{% include 'professor_head.html'%}
+{% endif %}
+{% if session['role'] == 'student' %}
+	{% include "student_head.html" %}
+{% endif %}
+
+<div class="container">
+    <div class="row">
+        <div class="container-fluid">
+            <div class="row">
+                {% if session['role'] == 'Professor' %}
+                <div class="col-md-3"></div>
+                    <div class="col-md-6">
+                        <div class="card mt-5 p-3">
+                            <div class="text-center h5">Add Assignment</div>
+                            <form action="assignments1" method="post" enctype="multipart/form-data">
+                                <label for="section_id">Choose Sections</label>
+                                <select name="section_id" id="section_id" required class="form-control">
+                                    <option value="">Choose Section</option>
+                                    {% for section in sections %}
+                                        <option value="{{section['_id']}}">{{section['CRN_number']}}</option>
+                                    {% endfor %}
+                                </select>
+                                <div class="mt-1">
+                                    <label for="assignment_title" class="form-control-label">Assignment Title</label>
+                                    <input type="text" name="assignment_title" id="assignment_title" placeholder="Enter assignment Title" required class="form-control">
+                                </div>
+                                <div class="mt-1">
+                                    <label for="assignment_pdf" class="form-control-label">Assignment PDF</label>
+                                    <input type="file" name="assignment_pdf" id="assignment_pdf" placeholder="Choose Pdf" required class="form-control">
+                                </div>
+                                <div class="mt-1">
+                                    <label for="submission_date" class="form-control-label">Submission Date</label>
+                                    <input type="datetime-local" name="submission_date" id="submission_date" placeholder="Enter Subamission Date" required class="form-control">
+                                </div>
+                                <div class="mt-1">
+                                    <label for="description" class="form-control-label">Description</label>
+                                    <textarea name="description" id="description" required placeholder="Description" class="form-control"></textarea>
+                                </div>
+                                <div class="mt-2">
+                                    <input type="submit" value="Add Assignment" class="btn btn-primary w-100">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                {% endif %}
+                {% for assignment in assignments: %}
+                    {% set section=get_section_by_section_id(assignment['section_id']) %}
+                    <div class="col=md-12 mt-5">
+                        <div class="card mt-3 p-3">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <div style="font-size:90%"><b>CRN</b></div>
+                                    <div>{{section['CRN_number']}}</div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div style="font-size:90%"><b>Submission Date</b></div>
+                                    <div>{{assignment['submission_date']}}</div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div style="font-size:90%"><b>Assignment Title</b></div>
+                                    <div>{{assignment['assignment_title']}}</div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="mt-1">
+                                        <a href="../static/picture/{{assignment['assignment_pdf']}}" style="background-color:">Assignment PDF</a>
+                                    </div>
+                                    <div class="mt-1">
+                                        <a href="view_assignments?assignment_id={{assignment['_id']}}">View Submissions</a>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div style="font-size:90%"><b>Description</b></div>
+                                    <div style="height:50px;overflow:auto">{{assignment['description']}} </div>
+                                </div>
+                                <hr>
+                                {% if session['role'] == 'student' %}
+                                    {% if assignment['submission_date'] >= datetime.datetime.now() %}
+                                        {% set is_submitted= is_student_submitted(assignment['_id']) %}
+                                        {% if not is_submitted: %}
+                                            <form action="assignment_submission" method="post" enctype="multipart/form-data">
+                                                <input type="hidden" name="assignment_id" value="{{assignment['_id']}}">
+                                                <input type="hidden" name="enrolment_id" value="{{enrolment_id}}">
+                                                {% set assignment_submission = get_assignment_submission_by_assignment_id(assignment['_id'])%}
+                                                {% if assignment_submission['status']!='submitted'%}
+                                                    <div>
+                                                        <label for="assignment_upload" class="form-control-label">Upload Assignment</label>
+                                                        <input type="file" name="assignment_upload" id="assignment_upload" placeholder="assignment_upload" class="form-control" required>
+                                                    </div>
+                                                    <div class=" text-center mt-1">
+                                                        <input type="submit" value="Submit" class="btn btn-success w-50">
+                                                    </div>
+                                                {% endif %}
+                                            </form>
+                                        {% endif %}
+                                    {% else: %}
+                                        <div>Submission Time is out</div>
+                                    {% endif %}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>

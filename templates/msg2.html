@@ -1,0 +1,12 @@
+{% if session['role'] == 'admin' %}
+	{% include 'ahead.html'%}
+{% endif %}
+{% if session['role'] == 'Professor' %}
+	{% include 'professor_head.html'%}
+{% endif %}
+{% if session['role'] == 'student' %}
+	{% include "student_head.html" %}
+{% endif %}
+<div class="container mt-5 p-5">
+    <div class="text-center h3">{{msg}}</div>
+</div>
